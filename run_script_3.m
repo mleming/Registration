@@ -1,4 +1,4 @@
-fixed_image = double(imread('scaledfixedimage.png'));
+fixed_image = double(imread('images/scaledfixedimage.png'));
 
 % Create moving images
 
