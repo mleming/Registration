@@ -1,3 +1,9 @@
+% Matthew Leming
+% COMP 775, Fall 2014, Pizer
+% This program generates four moving images from the fixed scalar image and
+% uses a horizontal registration program to register them to the original
+% moving image. Run this script to output everything
+
 fixed_image = double(imread('images/scaledfixedimage.png'));
 
 % Create moving images
@@ -15,23 +21,32 @@ for x=1:size(fixed_image,1)
 end
 moving_image_4 = moving_image_4 + gaussian_noise_distribution;
 
-registerX(fixed_image, moving_image_1, @sumOfSquaredIntensityDifferences)
-registerX(fixed_image, moving_image_1, @sumOverMiddle)
-registerX(fixed_image, moving_image_1, @sumOverQuantileDifferences)
-registerX(fixed_image, moving_image_1, @mutualInfo)
 
-registerX(fixed_image, moving_image_2, @sumOfSquaredIntensityDifferences)
-registerX(fixed_image, moving_image_2, @sumOverMiddle)
-registerX(fixed_image, moving_image_2, @sumOverQuantileDifferences)
-registerX(fixed_image, moving_image_2, @mutualInfo)
+% Register all images or look at their mismatch values at all points along
+% the image?
+register_1_data_0 = 1;
 
-registerX(fixed_image, moving_image_3, @sumOfSquaredIntensityDifferences)
-registerX(fixed_image, moving_image_3, @sumOverMiddle)
-registerX(fixed_image, moving_image_3, @sumOverQuantileDifferences)
-registerX(fixed_image, moving_image_3, @mutualInfo)
+% Where to begin the registration at?
+start_delta = 28;
 
-registerX(fixed_image, moving_image_4, @sumOfSquaredIntensityDifferences)
-registerX(fixed_image, moving_image_4, @sumOverMiddle)
-registerX(fixed_image, moving_image_4, @sumOverQuantileDifferences)
-registerX(fixed_image, moving_image_4, @mutualInfo)
+% Perform Registrations
+registerX(fixed_image, moving_image_1, @sumOfSquaredIntensityDifferences,start_delta,register_1_data_0)
+registerX(fixed_image, moving_image_1, @sumOverMiddle,start_delta,register_1_data_0)
+registerX(fixed_image, moving_image_1, @sumOverQuantileDifferences,start_delta,register_1_data_0)
+registerX(fixed_image, moving_image_1, @mutualInfo,start_delta,register_1_data_0)
+
+registerX(fixed_image, moving_image_2, @sumOfSquaredIntensityDifferences,start_delta,register_1_data_0)
+registerX(fixed_image, moving_image_2, @sumOverMiddle,start_delta,register_1_data_0)
+registerX(fixed_image, moving_image_2, @sumOverQuantileDifferences,start_delta,register_1_data_0)
+registerX(fixed_image, moving_image_2, @mutualInfo,start_delta,register_1_data_0)
+
+registerX(fixed_image, moving_image_3, @sumOfSquaredIntensityDifferences,start_delta,register_1_data_0)
+registerX(fixed_image, moving_image_3, @sumOverMiddle,start_delta,register_1_data_0)
+registerX(fixed_image, moving_image_3, @sumOverQuantileDifferences,start_delta,register_1_data_0)
+registerX(fixed_image, moving_image_3, @mutualInfo,start_delta,register_1_data_0)
+
+registerX(fixed_image, moving_image_4, @sumOfSquaredIntensityDifferences,start_delta,register_1_data_0)
+registerX(fixed_image, moving_image_4, @sumOverMiddle,start_delta,register_1_data_0)
+registerX(fixed_image, moving_image_4, @sumOverQuantileDifferences,start_delta,register_1_data_0)
+registerX(fixed_image, moving_image_4, @mutualInfo,start_delta,register_1_data_0)
 

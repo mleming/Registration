@@ -2,17 +2,23 @@ function quantile_sum = sumOverQuantileDifferences( image1, image2 )
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 quantile_sum = 0;
+
+% Divide everything into 16 images
 for x=1:size(image1,1)/4:size(image1,1)
     for y=1:size(image1,2)/4:size(image1,2)
         sub_image1 = image1(x:(x+size(image1,1)/4)-1,y:(y+size(image1,2)/4)-1);
         sub_image2 = image2(x:(x+size(image2,1)/4)-1,y:(y+size(image2,2)/4)-1);
+        % Take the medium quantile functions of these areas, as well as the
+        % amount to divide the total by.
         med_quant1 = quantile(sub_image1(:),0.5);
         med_quant2 = quantile(sub_image2(:),0.5);
         div_quant1 = quantile(sub_image1(:),0.7) - quantile(sub_image1(:),0.3);
         div_quant2 = quantile(sub_image2(:),0.7) - quantile(sub_image2(:),0.3);
+        
         euclidean_distance = 0;
         for i=0:0.1:1
             q=0;
+            % This is used to avoid division-by-zero errors.
             if div_quant1 ~= 0 && div_quant2 ~= 0
                 q = (quantile(sub_image1(:),i)-med_quant1)/div_quant1-(quantile(sub_image2(:),i)-med_quant2)/div_quant2;
             elseif div_quant1 ~=0
@@ -20,6 +26,9 @@ for x=1:size(image1,1)/4:size(image1,1)
             elseif div_quant2 ~= 0
                 q = -(quantile(sub_image2(:),i)-med_quant1)/div_quant2;
             end
+            
+            % The absolute value is taken to account for reverse-contrast
+            % polarity
             euclidean_distance = euclidean_distance + abs(q)*0.1;
         end
         quantile_sum = quantile_sum + euclidean_distance;
